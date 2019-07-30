@@ -1,0 +1,53 @@
+import random
+
+def game(koloda):
+    random.shuffle(koloda)
+    print(f'Исходная колода     : {koloda}')
+    player_hand, dealer_hand = [koloda.pop()] + [koloda.pop()], [koloda.pop()] + [koloda.pop()]
+    print(f'Колода после раздачи: {koloda}')
+    player_sum, dealer_sum = sum(player_hand), sum(dealer_hand)
+    print(f'Карты игрока: {player_hand}')
+    print(f'Карты дилера: {dealer_hand}')
+
+
+    while True:
+        print(f'Дорогой игрок, сумма ваших карт {player_sum}. Если наберёте больше 21 - проиграете. Будете брать ещё?(y/n)')
+        resolution = input()
+        if resolution == 'y':
+            player_sum += koloda.pop()
+            if player_sum > 21:
+                break
+        if resolution == 'n':
+            break
+        else:
+            print('Вы не попали по ужной клавише')
+            pass
+    while dealer_sum < 18:
+        dealer_sum += koloda.pop()
+        if dealer_sum > 22:
+            break
+        else:
+            pass
+
+    if player_sum > 21:
+        print(f'Вы набрали {player_sum} очков. Это перебор. Вы проиграли!')
+    else:
+        if player_sum > dealer_sum or dealer_sum > 21:
+            print(f'У дилера {dealer_sum} очков, у вас {player_sum} очков. Поздравляю, это победа!')
+        elif player_sum == dealer_sum:
+            print(f'У дилера {dealer_sum} очков, у вас {player_sum} очков. Это ничья, но тоже неплохо!')
+        elif player_sum < dealer_sum:
+            print(f'У дилера {dealer_sum} очков, у вас {player_sum} очков. Это фиаско, братан!')
+    print('Хотите сыграть ещё?(y)')
+    otvet = input()
+    return otvet
+
+
+koloda = [1,2,3,6,7,8,9,10,11] *4
+
+while True:
+    if game(koloda.copy()) == 'y':
+        game(koloda.copy())
+    else:
+        print('Спасибо за игру!')
+        break
